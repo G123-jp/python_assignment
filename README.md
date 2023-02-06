@@ -32,7 +32,7 @@ Please submit the following:
 
 optional:
 
-- a Dockerfile which can build up your local db environment
+- a Dockerfile which can build up your local db environment is a plus
 
 ## Evaluation Criteria:
 
