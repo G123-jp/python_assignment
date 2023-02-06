@@ -6,8 +6,8 @@ The goal of this take-home assignment is to evaluate your abilities to use API, 
 
 Design a program that performs the following tasks:
 
-1. Use an API to retrieve financial data for a specific stock (e.g., the closing price and volume of a stock traded on the NYSE)
-2. Store the data in a database (e.g., SQLite)
+1. Use an API to retrieve financial data for a specific stock (including the closing price and volume of a stock traded on the NYSE, given a two weeks' time period). My recommend one is Alpha Vintage, but it is not mandatory. Reference: https://www.alphavantage.co/documentation/
+2. Store the data in a database (e.g., SQLite, MySQL, ...), you should design the table and create a ddl file for your schema definition
 3. Perform some basic calculations on the data (e.g., calculate the average closing price and volume for a specified time period)
 4. Create a graphical representation of the data (e.g., a line chart or bar chart)
 5. Write the results to a new file (e.g., a CSV file or a PDF report)
