@@ -1,79 +1,68 @@
 # Take-Home Assignment
 
-The goal of this take-home assignment is to evaluate your abilities to design a API in Python.
+The goal of this take-home assignment is to evaluate your abilities to use API, data calculation and transformation, SQL, and visualization in Python.
 
-You should first fork this repository, and then share the url of your forked repository via email to HR.
+You should first fork this repository, and then send us the code or the url of your forked repository via email.
 
 **Please do not submit any pull requests to this repository.**
 
 ## Problem Statement:
 
-Develop a program that parses the input JSON file and converts the Unix timestamps into human-readable format. The program should output the opening and closing hours of a store for each day of the week.
+Design a program that performs the following tasks:
 
-Input:
-
-- A JSON file consisting of days of the week as keys and corresponding opening hours as values.
-- Each day of the week is represented as a string (e.g. "Monday").
-- The value for each day of the week is an array of objects that represent the opening hours. Each object consists of two keys:
-    - type: A string indicating whether the time represents an opening or closing time.
-    - value: A Unix timestamp representing the opening or closing time.
-
-Output:
-
-- The program should output the opening and closing hours for each day of the week in human-readable format (e.g. "9:00 AM" or "10:30 PM").
-- The output should be in the format:
+1. Retrieve the financial data of a given stock (symbol: IBM) using an free API named [AlphaVantage](https://www.alphavantage.co/documentation/) for the most recently two weeks, a sample output after processing API response should be like:
 ```
-[Day of Week]:
-    [Opening Time] - [Closing Time]
-```
+{
+    "symbol": "IBM",
+    "date": "2023-02-14",
+    "open_price": "153.08",
+    "close_price": "154.52",
+    "volume": "62199013",
+},
+{
+    "symbol": "AAPL",
+    "date": "2023-02-13",
+    "open_price": "153.08",
+    "close_price": "154.52",
+    "volume": "59099013"
+},
+{
+    "symbol": "AAPL",
+    "date": "2023-02-14",
+    "open_price": "153.08",
+    "close_price": "154.52",
+    "volume": "42399013"
+},
+...
+``` 
+2. Store the output from Problem Statement 1 in a local database table named "raw_financial_data".
+3. Perform the following calculations on the data for the most recently two weeks' open trading day (e.g. 2023-02-01 to 2023-02-14):
+    - Calculate the average daily open price for the period
+    - Calculate the average daily closing price for the period
+    - Calculate the average daily volume for the period
+5. Generate a line chart of the closing price and volume for the period, and save the chart as a PNG file named "closing_price_trend.png".
+6. Write the calculated data to a CSV file named "output.csv".
 
 ## Requirements:
 
 - The program should be written in Python 3.
-- The program should use the datetime module to convert the Unix timestamps to human-readable format.
-- The program should handle errors, such as missing keys or invalid timestamps, and output a meaningful error message.
-- The program should be well-documented and easy to understand, with clear and concise code and comments.
-- The program should be tested with multiple input JSON files to ensure its correctness, a sample input JSON file has been provided.
- - The program should be submitted as a single Python file, along with a brief write-up explaining how to run the program and any assumptions made during development.
-- You are free to use any frameworks and libraries you like, but should include a brief explanation of why you chose the frameworks and libraries you used.
+- You are free to use any API and libraries you like, but should include a brief explanation of why you chose the API and libraries you used.
+- The API key to retrieve financial data should be stored securely. Please provide a description of how to maintain the API key from both local development and production environment.
+- The database in Problem Statement 2 could be created using SQLite/MySQL/.. and should include a DDL .sql file for schema definition.
 - The program should include error handling to handle cases where the API returns an error or the data is not in the correct format.
-
-## Example:
-Input
-```
-{
-    "Monday": [
-        { "type": "open", "value": 32400 },
-        { "type": "close", "value": 64800 }
-    ],
-    "Tuesday": [
-        { "type": "open", "value": 36000 },
-        { "type": "close", "value": 72000 }
-    ],
-    ...
-}
-```
-Output
-```
-{
-    "Monday": "9:00 AM - 6:00 PM",
-    "Tuesday": "10:00 AM - 8:00 PM"
-    ...
-}
-```
-
-A detailed sample input and output has been provided in the project root folder.
+- The program should use appropriate data structures and algorithms to store the data and perform the calculations.
+- The program should be modular, with functions for retrieving data from the API, storing data in the database, performing the calculations, creating the graphical representation, and writing the results to a file.
+- The program should include appropriate documentation, including docstrings and inline comments to explain the code.
 
 ## Submission:
 
 Please submit the following:
 
 - The Python source code of your solution.
-- A brief explanation of your design choices and trade-offs, as well as any challenges you faced while implementing the program, and please also describe how to test your code in local.
-- Include test file covers all edge cases you can think of.
+- A brief explanation of your design choices and trade-offs, as well as any challenges you faced while implementing the program.
+- A sample input file and the corresponding output file generated by your program.
+- A Dockerfile which can build up your local db environment.
 - A requirements.txt file which contains your dependency libraries.
-- A Dockerfile which can be used to run your API in local environment is a plus.
-- A Swagger API documentation is a plus.
 
 ## Evaluation Criteria:
 
@@ -81,7 +70,7 @@ Your solution will be evaluated based on the following criteria:
 
 - Correctness: Does the program produce the correct results?
 - Code quality: Is the code well-structured, easy to read, and maintainable?
-- Design: Does the program make good use of functions, data structures, and libraries?
+- Design: Does the program make good use of functions, data structures, algorithms, databases, and libraries?
 - Error handling: Does the program handle errors and unexpected input appropriately?
 - Documentation: Is the code adequately documented, with clear explanations of the algorithms and data structures used?
 
