@@ -109,7 +109,7 @@ Sample Response:
 
 Sample request:
 ```bash
-curl -X GET http://localhost:5000/statistics?start_date=2023-01-01&end_date=2023-01-31&symbol=IBM
+curl -X GET http://localhost:5000/api/statistics?start_date=2023-01-01&end_date=2023-01-31&symbol=IBM
 
 ```
 Sample response:
