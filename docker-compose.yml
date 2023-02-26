@@ -1,0 +1,29 @@
+# This is a docker-compose file for running the API and database
+version: "3.8"
+
+services:
+  # Define the database service
+  db:
+    image: dockerpinata/sqlite:2.1
+    container_name: financial_data_db
+    command: sqlite3 /app/financial_data.db
+    volumes:
+      - ./financial_data.db:/app/financial_data.db
+    ports:
+      - 5432:5432
+  # Define the API service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: financial_api
+    ports:
+      - 5000:5000
+    environment:
+      FLASK_APP: /app/api.py
+      FLASK_DEBUG: 1 # 1 - for Development | 0 - for Production
+    command: "flask run --host=0.0.0.0"
+    depends_on:
+      - db
+    volumes:
+      - ./financial_data.db:/app/financial_data.db

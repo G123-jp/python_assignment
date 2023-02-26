@@ -1,0 +1,4 @@
+Flask==2.2.3
+peewee==3.15.4
+requests==2.28.2
+python-dotenv==1.0.0
