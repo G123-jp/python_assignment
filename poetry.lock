@@ -181,6 +181,20 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
+name = "sqlalchemy-pagination"
+version = "0.0.2"
+description = "A small utility to paginate SqlAlchemy queries."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+SqlAlchemy = "*"
+
+[package.extras]
+dev = ["sqlalchemy", "coverage (==4.1b2)", "flake8 (==2.5.4)", "flake8-debugger (==1.4.0)", "flake8-quotes (==0.2.4)", "nose (==1.3.7)", "pep8-naming (==0.3.3)", "rednose (==1.1.0)", "sure (==1.2.24)", "factory-boy (==2.10.0)"]
+
+[[package]]
 name = "starlette"
 version = "0.25.0"
 description = "The little ASGI library that shines."
@@ -233,7 +247,7 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "984a308a8dab0772bd3996c01846baa720914009e7428761216bfa86b3e1cc5c"
+content-hash = "8835b4c7563f0291c7c1a99780d78cc78e3ea7bfe869f3202f5b98fc532696ac"
 
 [metadata.files]
 anyio = []
@@ -250,6 +264,7 @@ pydantic = []
 requests = []
 sniffio = []
 sqlalchemy = []
+sqlalchemy-pagination = []
 starlette = []
 typing-extensions = []
 urllib3 = []
