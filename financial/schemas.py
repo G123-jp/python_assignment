@@ -1,7 +1,10 @@
 from pydantic import BaseModel, validator
-from typing import List, Any, Optional
-from decimal import Decimal
+from typing import List, Any
 from datetime import date
+
+"""
+    Define Response Format
+"""
 
 
 class FinancialData(BaseModel):
@@ -35,18 +38,14 @@ class Pagination(BaseModel):
         orm_mode = True
 
 
-class CreateFinancialData(BaseModel):
-    symbol: str
-    date: str
-    open_price: str
-    close_price: str
-    volume: str
+class InfoResponse(BaseModel):
+    error: str = ""
 
 
 class GetFinancialDataResponse(BaseModel):
     data: List[FinancialData]
     pagination: Pagination
-    info: Any
+    info: InfoResponse
 
     class Config:
         orm_mode = True
@@ -66,7 +65,7 @@ class StatisticsData(BaseModel):
 
 class GetStatisticsDataResponse(BaseModel):
     data: StatisticsData
-    info: Any
+    info: InfoResponse
 
     class Config:
         orm_mode = True

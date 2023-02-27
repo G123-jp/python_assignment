@@ -1,6 +1,10 @@
 from sqlalchemy import Column, Integer, Date, Numeric, String
 from .database import Base
 
+"""
+    Define Database
+"""
+
 
 class FinancialData(Base):
     __tablename__ = 'financial_data'
