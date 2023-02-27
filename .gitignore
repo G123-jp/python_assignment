@@ -1,2 +1,6 @@
-.venv/
-.idea/
+.venv/*
+.idea/*
+.idea/workspace.xml
+__pycache__/*
+financial/__pycache__/*
+.env
