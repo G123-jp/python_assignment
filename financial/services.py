@@ -19,8 +19,8 @@ class FinancialDataInputValidationService:
     def validate_and_parse_financial_data_input(
         self, request_args
     ) -> FinancialDataInput | NullFinancialDataInput:
-        start_date = request_args.get("start_date", "")
-        end_date = request_args.get("end_date", "")
+        start_date = request_args.get("start_date", datetime.now().strftime("%Y-%m-%d"))
+        end_date = request_args.get("end_date", datetime.now().strftime("%Y-%m-%d"))
         for field_name, date in (("start_date", start_date), ("end_date", end_date)):
             try:
                 datetime.strptime(date, "%Y-%m-%d")
@@ -35,12 +35,15 @@ class FinancialDataInputValidationService:
             self.validation_errors.append("start_date is after end_date")
             return NullFinancialDataInput()
 
-        symbol = request_args.get("symbol", "")
+        # use "IBM" as default symbol
+        symbol = request_args.get("symbol", "IBM")
         if symbol not in ["IBM", "AAPL"]:
             self.validation_errors.append("symbol is not valid")
             return NullFinancialDataInput()
 
         limit = request_args.get("limit", "5")
+
+        # Use 1 as default page. Page 1 is the first page.
         page = request_args.get("page", "1")
         for field_name, value in [("limit", limit), ("page", page)]:
             try:
