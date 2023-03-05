@@ -7,7 +7,8 @@ db = SQLAlchemy()
 
 
 class FinancialData(db.Model):
-    # A unique constraint works as an index, which speeds up queries. It is also used when upserting.
+    # The unique constraint, which speeds up queries, works as an index in PostgreSQL.
+    # It is also used when upserting.
     __table_args__ = (db.UniqueConstraint("symbol", "date", name="unique_symbol_date"),)
     id: db.Mapped[int] = db.mapped_column(primary_key=True)
     symbol: db.Mapped[str] = db.mapped_column(db.String(15))
