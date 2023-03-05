@@ -1,0 +1,6 @@
+Flask==2.2.3
+psycopg2-binary==2.9.5
+requests==2.27.1
+python-dotenv==1.0.0
+Flask-SQLAlchemy==3.0.3
+Flask-Migrate==4.0.3

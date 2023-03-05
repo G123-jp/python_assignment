@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:15.2
+    environment:
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_USER: myuser
+      POSTGRES_DB: finance_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    expose:
+      - "5432"
+
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    command: flask run --host=0.0.0.0
+    env_file: .env
+
+volumes:
+  db-data:
