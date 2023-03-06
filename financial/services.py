@@ -1,5 +1,5 @@
 import math
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 from financial.input import (
@@ -19,7 +19,11 @@ class FinancialDataInputValidationService:
     def validate_and_parse_financial_data_input(
         self, request_args
     ) -> FinancialDataInput | NullFinancialDataInput:
-        start_date = request_args.get("start_date", datetime.now().strftime("%Y-%m-%d"))
+        # default start_date is 14 days ago
+        start_date = request_args.get(
+            "start_date", (datetime.now() + timedelta(days=-14)).strftime("%Y-%m-%d")
+        )
+        # default end_date is today
         end_date = request_args.get("end_date", datetime.now().strftime("%Y-%m-%d"))
         for field_name, date in (("start_date", start_date), ("end_date", end_date)):
             try:
@@ -43,7 +47,7 @@ class FinancialDataInputValidationService:
 
         limit = request_args.get("limit", "5")
 
-        # Use 1 as default page. Page 1 is the first page.
+        # Use 1 as default page number. Page 1 is the first page.
         page = request_args.get("page", "1")
         for field_name, value in [("limit", limit), ("page", page)]:
             try:
@@ -139,7 +143,7 @@ class GetFinancialDataService:
                 "close_price": row.close_price,
                 "volume": row.volume,
             }
-            for row in financial_data[start_index : end_index + 1]
+            for row in financial_data[start_index:end_index]
         ]
 
     def format_pagination(self, total_length: int) -> None:
