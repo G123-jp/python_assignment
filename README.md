@@ -14,7 +14,7 @@ cd python_assignment
 ```
 3. Copy `.env` file from `.env.sample` file. Update `ALPHA_VANTAGE_API_KEY` key with your own [Alpha Vantage](https://www.alphavantage.co/) key.
 ```bash
-cp .env.example .env
+cp .env.sample .env
 ```
 3. build image and run container
 ```bash
