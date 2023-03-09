@@ -1,0 +1,57 @@
+# pre-commit is framework for managing and maintaining multi-language pre-commit hooks.
+
+repos:
+# General Pre-commits Hooks
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: requirements-txt-fixer
+
+
+# Auto formats the Python Code
+-   repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+    -   id: black
+
+# # Sort Imports
+# -   repo: https://github.com/pycqa/isort
+#     rev: 5.11.4
+#     hooks:
+#       - id: isort
+#         name: isort (python)
+#         args: ["-a from __future__ import annotations"]
+
+# Add Trailing commas
+-   repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.4.0
+    hooks:
+    -   id: add-trailing-comma
+        args: [--py36-plus]
+
+# A tool (and pre-commit hook) to automatically upgrade syntax for newer versions of the language.
+# -   repo: https://github.com/asottile/pyupgrade
+#     rev: v3.3.1
+#     hooks:
+#     -   id: pyupgrade
+#         args: [--py37-plus, --keep-runtime-typing]
+# Autopep8 automatically formats Python code to conform to the PEP 8 style guide
+# -   repo: https://github.com/pre-commit/mirrors-autopep8
+#     rev: v2.0.0
+#     hooks:
+#     -   id: autopep8
+# Wrapper around coding style python libs
+# -   repo: https://github.com/PyCQA/flake8
+#     rev: 6.0.0
+#     hooks:
+#     -   id: flake8
+# Mypy is a static type checker for Python.
+# -   repo: https://github.com/pre-commit/mirrors-mypy
+#     rev: v0.991
+#     hooks:
+#     -   id: mypy
+#         additional_dependencies: [types-all]
+#         exclude: ^testing/resources/

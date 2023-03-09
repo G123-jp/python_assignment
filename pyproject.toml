@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "financial"
+version = "0.1.0"
+description = "Take-Home Assignment to use API, data processing and transformation, SQL, and implement a new API service in Python."
+authors = ["Shubham Raj <shubhamraj2202@gmail.com>"]
+license = "LICENSE"
+readme = "README.md"
+packages = [{include = "financial"}]
+keywords = ["financial", "fastapi", "ETL"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "*"
+aiohttp = "^3.8.4"
+datamodel-code-generator = "^0.17.1"
+python-dateutil = "^2.8.2"
+sqlalchemy = "^2.0.5.post1"
+fastapi = "^0.92.0"
+uvicorn = "^0.20.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+isort = "*"
+pre-commit = "*"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^6.0.0"
+pytest-cov = "*"
+codecov = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
