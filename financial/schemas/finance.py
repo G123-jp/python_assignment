@@ -1,20 +1,15 @@
+import json
 from pydantic import BaseModel, validator
 from datetime import date
 
 
 class FinancialData(BaseModel):
     symbol: str
-    date: str
-    open_price: str
-    close_price: str
-    volume: str
+    date: date
+    open_price: float
+    close_price: float
+    volume: int
 
-    @validator('date', pre=True, always=True)
-    def date_to_str(cls, value):
-        if isinstance(value, date):
-            return value.isoformat()
-        return value
-
-    @validator('open_price', 'close_price', 'volume')
-    def convert_to_string(cls, v):
-        return str(v)
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
