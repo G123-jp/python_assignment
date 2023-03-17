@@ -9,16 +9,17 @@ class FinanceApiClient(ABC):
     @abstractmethod
     def get_raw_data(self, symbol):
         """
+        Get raw financial data for a given symbol.
         Parameters:
             symbol (str): The symbol of the stock
         Returns:
             List of stock data
         """
-        raise NotImplementedError
 
     @abstractmethod
     def process_raw_data(self, symbol, raw_data, duration):
         """
+        Process raw financial data for a given symbol and time duration.
         Parameters:
             symbol (str): The symbol of the stock
             raw_data (list) : List of raw stock data
@@ -26,4 +27,3 @@ class FinanceApiClient(ABC):
         Returns:
             List of FinancialData
         """
-        raise NotImplementedError
