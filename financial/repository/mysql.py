@@ -8,14 +8,14 @@ from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy_pagination import paginate
 from sqlalchemy import func
 
-from common import constants
-from common.logging import Logger
+from financial.common import constants
+from financial.common.logging import Logger
+from financial.errors import DataBaseError
 from datetime import datetime
-from errors import DataBaseError
-from repository import BaseFinancialRepository, BaseStatisticsRepository
+from financial.repository.interfaces import BaseFinancialRepository, BaseStatisticsRepository
 from typing import List
 
-from schemas import Pagination
+from financial.schemas.responses import Pagination
 
 Base = declarative_base()
 

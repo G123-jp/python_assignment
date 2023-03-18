@@ -1,10 +1,10 @@
 import requests
 
-from clients import FinanceApiClient
-from errors import ApiClientError
-from config import Config
-from common import constants
-from schemas import FinancialData
+from financial.clients.interfaces import FinanceApiClient
+from financial.errors import ApiClientError
+from financial.config import Config
+from financial.common import constants
+from financial.schemas.finance import FinancialData
 
 
 class AlphavantageClient(FinanceApiClient):

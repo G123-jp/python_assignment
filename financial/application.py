@@ -5,9 +5,9 @@ from wsgiref import simple_server
 import falcon
 from falcon_cors import CORS
 
-from api import FinancialApi
+from financial.api.financial_api import FinancialApi
+from financial.api.statistics_api import StatisticsApi
 from api.health import Liveness, Readiness
-from api.statistics_api import StatisticsApi
 from api.version import Version
 from common.utility import falcon_error_serializer
 from common.logging import Logger
@@ -16,10 +16,11 @@ from config import config_obj
 from config import print_configs
 from common.middleware import Telemetry, RequestValidation
 
-from repository import FinancialRepository, StatisticsRepository
+from financial.repository.mysql import FinancialRepository, StatisticsRepository
 # DO NOT CHANGE THE FOLLOWING. It affects responder methods in API classes
 # INDIVIDUAL_SUFFIX = 'one'
-from services import FinancialService, StatisticsService
+from financial.services.financial_service import FinancialService
+from financial.services.statistics_service import StatisticsService
 
 logger = Logger()
 

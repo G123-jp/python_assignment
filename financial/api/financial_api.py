@@ -3,7 +3,7 @@ import falcon
 from common.logging import LoggerMixin
 from errors import DataNotFoundError
 from errors.error_codes import FinancialDataErrors
-from services import FinancialService
+from financial.services.financial_service import FinancialService
 
 
 class FinancialApi(LoggerMixin):

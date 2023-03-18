@@ -1,8 +1,8 @@
 from errors import DataNotFoundError
-from repository import StatisticsRepository
+from financial.repository.mysql import StatisticsRepository
 from schemas.responses import GetFinancialDataResponse, InfoResponse, FinancialData, GetStatisticsDataResponse
 from schemas.statistics import StatisticsData
-from services import BaseStatisticsService
+from financial.services.interfaces import BaseStatisticsService
 
 
 class StatisticsService(BaseStatisticsService):

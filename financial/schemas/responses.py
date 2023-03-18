@@ -2,8 +2,8 @@ import json
 from pydantic import BaseModel
 from typing import List
 
-from schemas import FinancialData
-from schemas.statistics import StatisticsData
+from financial.schemas.finance import FinancialData
+from financial.schemas.statistics import StatisticsData
 
 
 class Pagination(BaseModel):

@@ -3,7 +3,7 @@ import falcon
 from common.logging import LoggerMixin
 from errors import DataNotFoundError
 from errors.error_codes import StatisticsDataErrors
-from services import StatisticsService
+from financial.services.statistics_service import StatisticsService
 
 
 class StatisticsApi(LoggerMixin):

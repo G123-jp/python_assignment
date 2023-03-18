@@ -1,8 +1,7 @@
 from abc import abstractmethod
 
-from schemas import FinancialData
-from typing import List, Union
-from datetime import date
+from financial.schemas.finance import FinancialData
+from typing import List
 
 
 class BaseFinancialRepository:
