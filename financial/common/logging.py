@@ -1,6 +1,6 @@
 import sys
 from loguru import logger
-from config import config_obj
+from financial.config import config_obj
 
 
 class LoggerMixin:

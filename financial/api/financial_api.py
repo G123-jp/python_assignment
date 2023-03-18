@@ -1,10 +1,9 @@
 import falcon
-import json
 
 from common.logging import LoggerMixin
+from errors import DataNotFoundError
 from errors.error_codes import FinancialDataErrors
-from services import FinancialService
-from common.json_api import make_response
+from financial.services.financial_service import FinancialService
 
 
 class FinancialApi(LoggerMixin):
@@ -22,6 +21,9 @@ class FinancialApi(LoggerMixin):
                                                               limit=limit, page=page)
             resp.body = data.to_json()
             resp.status = falcon.HTTP_200
+        except DataNotFoundError as e:
+            raise falcon.HTTPNotFound(description=str(e), code=FinancialDataErrors.Financial101.code,
+                                      title=FinancialDataErrors.Financial101.title)
         except Exception as e:
             raise falcon.HTTPInternalServerError(description=str(e), code=FinancialDataErrors.Financial101.code,
                                                  title=FinancialDataErrors.Financial101.title)

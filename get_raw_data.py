@@ -1,13 +1,11 @@
 import os
 
-from sqlalchemy.exc import SQLAlchemyError
-
-from config import Config
-from clients import AlphavantageClient
-from common.logging import Logger
-from errors import ApiClientError
-from repository import FinancialRepository
+from financial.clients.alphavantage_client import AlphavantageClient
+from financial.common.logging import Logger
+from financial.errors import ApiClientError
+from financial.repository.mysql import FinancialRepository
 from dotenv import load_dotenv
+from sqlalchemy.exc import SQLAlchemyError
 
 logger = Logger()
 load_dotenv('.env')

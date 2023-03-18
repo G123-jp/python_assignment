@@ -2,7 +2,8 @@ import json
 from pydantic import BaseModel
 from typing import List
 
-from schemas import FinancialData
+from financial.schemas.finance import FinancialData
+from financial.schemas.statistics import StatisticsData
 
 
 class Pagination(BaseModel):
@@ -25,6 +26,14 @@ class InfoResponse(BaseModel):
 class GetFinancialDataResponse(BaseModel):
     data: List[FinancialData]
     pagination: Pagination
+    info: InfoResponse
+
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+
+class GetStatisticsDataResponse(BaseModel):
+    data: StatisticsData
     info: InfoResponse
 
     def to_json(self):
