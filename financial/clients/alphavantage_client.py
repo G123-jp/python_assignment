@@ -9,19 +9,24 @@ from schemas import FinancialData
 
 class AlphavantageClient(FinanceApiClient):
 
+    def __init__(self, finance_api_client_api_key: str = Config.finance_api_client_api_key,
+                 finance_api_client_api_url: str = Config.finance_api_client_api_url) -> None:
+        self.finance_api_client_api_key = finance_api_client_api_key
+        self.finance_api_client_api_url = finance_api_client_api_url
+
     def get_raw_data(self, symbol):
-        if Config.finance_api_client_api_key is None:
+        if self.finance_api_client_api_key is None:
             raise ApiClientError(f"Missing API KEY.")
 
         params = {
             "function": constants.API_CLIENT_FUNCTION,
             "symbol": symbol,
             "outputsize": constants.API_CLIENT_OUTPUT_SIZE,
-            "apikey": Config.finance_api_client_api_key,
+            "apikey": self.finance_api_client_api_key,
         }
 
         try:
-            response = requests.get(Config.finance_api_client_api_url, params=params)
+            response = requests.get(self.finance_api_client_api_url, params=params)
             response.raise_for_status()
             raw_data = response.json()
             return raw_data

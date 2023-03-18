@@ -5,7 +5,7 @@ from typing import List, Union
 from datetime import date
 
 
-class BaseFinancialDataDB:
+class BaseFinancialRepository:
     @abstractmethod
     def add_financial_data(self, entries: List[FinancialData]):
         """Add financial data to repository"""
