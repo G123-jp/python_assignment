@@ -1,12 +1,20 @@
 import inflection as inflection
 
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy import Column, Integer, Date, Numeric, String, Float, create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import database_exists, create_database
+from sqlalchemy_pagination import paginate
+
+from common.logging import Logger
+from datetime import datetime
+from errors import DataBaseError
 from repository import BaseFinancialRepository
-from typing import List, Union
+from typing import List, Union, Optional
 from datetime import date
+
+from schemas import Pagination
 
 Base = declarative_base()
 
@@ -33,18 +41,56 @@ class FinancialRepository(BaseFinancialRepository):
         if not database_exists(db_engine.url):
             create_database(db_engine.url)
         Base.metadata.create_all(db_engine)
-        session_factory = sessionmaker(bind=db_engine)
-        self.session = scoped_session(session_factory)
+        self.session = sessionmaker(autocommit=False, autoflush=False, bind=db_engine)
+        self._logger = Logger()
 
     def add_financial_data(self, entries: List[FinancialData]):
-        """Add financial data to repository"""
-        entries = [FinancialData(**entry.dict()) for entry in entries]
-        for entry in entries:
-            self.session.merge(entry)
-        self.session.commit()
-        return entries
+        session = self.session()
+        try:
+            # Manually convert string of datetime value to pytho datetime to support SQL operation.
+            entries = [FinancialData(symbol=entry.symbol, date=datetime.strptime(entry.date, '%Y-%m-%d'),
+                                     open_price=entry.open_price, close_price=entry.close_price,
+                                     volume=entry.volume) for entry in entries]
+            for entry in entries:
+                session.merge(entry)
+            session.commit()
+            return entries
+        except SQLAlchemyError as e:
+            session.rollback()
+            self._logger.error(
+                f'Database error in creating Finance Data'
+                f'- {str(e)}')
+            raise DataBaseError(
+                message=f'Database error in creating Finance Data'
+                        f'- {str(e)}')
+        finally:
+            session.close()
 
-    def get_financial_data(self, symbol: Union[str, None] = None,
-                           start_date: Union[date, None] = None,
-                           end_date: Union[date, None] = None):
-        pass
+    def get_financial_data(self, symbol, start_date, end_date, limit, page):
+        session = self.session()
+        if limit is None:
+            limit = 5
+        if page is None:
+            page = 1
+
+        try:
+            q = session.query(FinancialData)
+            if symbol:
+                q = q.filter(symbol == symbol)
+            if start_date:
+                q = q.filter(FinancialData.date >= start_date)
+            if end_date:
+                q = q.filter(FinancialData.date <= end_date)
+            q = paginate(q, page=int(page), page_size=int(limit))
+            pagination = Pagination(count=q.total, page=int(page), limit=int(limit), pages=q.pages)
+            return q.items, pagination
+        except SQLAlchemyError as e:
+            session.rollback()
+            self._logger.error(
+                f'Database error in getting Finance Data'
+                f'- {str(e)}')
+            raise DataBaseError(
+                message=f'Database error in getting Finance Data'
+                        f'- {str(e)}')
+        finally:
+            session.close()
