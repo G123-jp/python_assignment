@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy import Column, Integer, Date, Numeric, String, Float, create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import database_exists, create_database
-from models import BaseFinancialDataDB
+from repository import BaseFinancialRepository
 from typing import List, Union
 from datetime import date
 
@@ -26,7 +26,7 @@ class FinancialData(BaseModel, Base):
     volume = Column(Integer, nullable=True)
 
 
-class FinancialDataDB(BaseFinancialDataDB):
+class FinancialRepository(BaseFinancialRepository):
 
     def __init__(self, database_url: str) -> None:
         db_engine = create_engine(database_url)

@@ -4,14 +4,14 @@ from config import Config
 from clients import AlphavantageClient
 from common.logging import Logger
 from errors import ApiClientError
-from models import FinancialDataDB
+from repository import FinancialRepository
 
 logger = Logger()
 
 
 def main():
     logger.info(f'Starting Get RAW Data for {Config.service_name} ...')
-    db = FinancialDataDB(Config.finance_database_url)
+    db = FinancialRepository(Config.finance_database_url)
     symbols = ["IBM", "AAPL"]
 
     try:
