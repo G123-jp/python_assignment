@@ -2,8 +2,8 @@ import inflection as inflection
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
-from sqlalchemy import Column, Integer, Date, Numeric, String, Float, create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import Column, Integer, Date, String, Float, create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy_pagination import paginate
 
@@ -12,8 +12,7 @@ from common.logging import Logger
 from datetime import datetime
 from errors import DataBaseError
 from repository import BaseFinancialRepository
-from typing import List, Union, Optional
-from datetime import date
+from typing import List
 
 from schemas import Pagination
 

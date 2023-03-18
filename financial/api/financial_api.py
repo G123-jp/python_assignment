@@ -1,10 +1,8 @@
 import falcon
-import json
 
 from common.logging import LoggerMixin
 from errors.error_codes import FinancialDataErrors
 from services import FinancialService
-from common.json_api import make_response
 
 
 class FinancialApi(LoggerMixin):

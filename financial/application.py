@@ -13,7 +13,6 @@ from common.logging import Logger
 from config import configs
 from config import config_obj
 from config import print_configs
-from config import Config
 from common.middleware import Telemetry, RequestValidation
 
 from repository import FinancialRepository
