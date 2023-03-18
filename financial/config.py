@@ -6,7 +6,7 @@ from financial.common import constants
 from dotenv import load_dotenv
 
 logger.remove()
-load_dotenv('.env')
+load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 fmt = "{time:YYYY-MM-DDTHH:mm:ss.SSSZ!UTC} | {level: <8} | {name: <15} | {line: >4} | {message}"
 logger.add(sys.stderr, level='INFO', format=fmt)
 
@@ -15,7 +15,7 @@ class Config:
     log_level = 'DEBUG'
     service_name = 'ctw-python'
 
-    # Fianancial API configs
+    # Financial API configs
     finance_api_client_api_key = os.getenv('FINANCE_API_CLIENT_API_KEY', None)
     finance_api_client_api_url = os.getenv('FINANCE_API_CLIENT_API_URL', None)
     finance_api_client_data_duration = int(os.getenv('FINANCE_API_CLIENT_DATA_DURATION', constants.API_CLIENT_DATA_DURATION))
