@@ -21,3 +21,10 @@ class ApiClientError(Exception):
             message = 'Api Client Error'
         super().__init__(message)
 
+
+class DataBaseError(Exception):
+    def __init__(self, message: Optional[str] = None):
+        if not message:
+            message = 'Database Error'
+        super().__init__(message)
+
