@@ -7,6 +7,7 @@ from falcon_cors import CORS
 
 from api import FinancialApi
 from api.health import Liveness, Readiness
+from api.statistics_api import StatisticsApi
 from api.version import Version
 from common.utility import falcon_error_serializer
 from common.logging import Logger
@@ -15,10 +16,10 @@ from config import config_obj
 from config import print_configs
 from common.middleware import Telemetry, RequestValidation
 
-from repository import FinancialRepository
+from repository import FinancialRepository, StatisticsRepository
 # DO NOT CHANGE THE FOLLOWING. It affects responder methods in API classes
 # INDIVIDUAL_SUFFIX = 'one'
-from services import FinancialService
+from services import FinancialService, StatisticsService
 
 logger = Logger()
 
@@ -39,12 +40,15 @@ def initialize(env) -> falcon.API:
 
     # Repositories
     financial_repository = FinancialRepository(config_obj.finance_database_url)
+    statistics_repository = StatisticsRepository(config_obj.finance_database_url)
 
     # Services
     financial_service = FinancialService(financial_repository=financial_repository)
+    statistics_service = StatisticsService(statistics_repository=statistics_repository)
 
     # Apis
     financial_api = FinancialApi(financial_service)
+    statistics_api = StatisticsApi(statistics_service)
 
     # Routes
     api.add_route('/liveness', Liveness())
@@ -52,6 +56,7 @@ def initialize(env) -> falcon.API:
     api.add_route('/version', Version())
 
     api.add_route('/api/financial_data', financial_api)
+    api.add_route('/api/statistics', statistics_api)
 
     logger.info(f'Finished initialization in {time() - tick:.3f} seconds')
     return api

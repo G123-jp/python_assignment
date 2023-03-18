@@ -6,12 +6,13 @@ from sqlalchemy import Column, Integer, Date, String, Float, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy_pagination import paginate
+from sqlalchemy import func
 
 from common import constants
 from common.logging import Logger
 from datetime import datetime
 from errors import DataBaseError
-from repository import BaseFinancialRepository
+from repository import BaseFinancialRepository, BaseStatisticsRepository
 from typing import List
 
 from schemas import Pagination
@@ -85,7 +86,6 @@ class FinancialRepository(BaseFinancialRepository):
             pagination = Pagination(count=q.total, page=int(page), limit=int(limit), pages=q.pages)
             return q.items, pagination
         except SQLAlchemyError as e:
-            session.rollback()
             self._logger.error(
                 f'Database error in getting Finance Data'
                 f'- {str(e)}')
@@ -94,3 +94,35 @@ class FinancialRepository(BaseFinancialRepository):
                         f'- {str(e)}')
         finally:
             session.close()
+
+
+class StatisticsRepository(BaseStatisticsRepository):
+
+    def __init__(self, database_url: str) -> None:
+        db_engine = create_engine(database_url)
+        Base.metadata.create_all(db_engine)
+        self.session = sessionmaker(autocommit=False, autoflush=False, bind=db_engine)
+        self._logger = Logger()
+
+    def get_statistics_data(self, symbol, start_date, end_date):
+        session = self.session()
+        try:
+            q = session.query(FinancialData.symbol,
+                         func.avg(FinancialData.open_price).label("average_daily_open_price"),
+                         func.avg(FinancialData.close_price).label("average_daily_close_price"),
+                         func.avg(FinancialData.volume).label("average_daily_volume")) \
+                .filter(FinancialData.symbol == symbol,
+                        FinancialData.date >= start_date,
+                        FinancialData.date <= end_date) \
+                .group_by(FinancialData.symbol)
+            return q.first()
+        except SQLAlchemyError as e:
+            self._logger.error(
+                f'Database error in getting Finance Data'
+                f'- {str(e)}')
+            raise DataBaseError(
+                message=f'Database error in getting Finance Data'
+                        f'- {str(e)}')
+        finally:
+            session.close()
+

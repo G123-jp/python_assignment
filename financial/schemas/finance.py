@@ -1,6 +1,5 @@
 import json
 from pydantic import BaseModel
-from datetime import date, datetime
 
 
 class FinancialData(BaseModel):

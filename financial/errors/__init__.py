@@ -8,10 +8,10 @@ class FalconServiceError(Exception):
         super().__init__(message)
 
 
-class ResourceNotFoundError(FalconServiceError):
+class DataNotFoundError(FalconServiceError):
     def __init__(self, message: Optional[str] = None):
         if not message:
-            message = 'Resource Not Found Error'
+            message = 'Data Not Found Error'
         super().__init__(message)
 
 

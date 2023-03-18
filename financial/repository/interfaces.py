@@ -31,3 +31,18 @@ class BaseFinancialRepository:
             List (FinancialData): The list of the FinancialData
             Page (Pagination): The pagination object
         """
+
+
+class BaseStatisticsRepository:
+    @abstractmethod
+    def get_statistics_data(self, symbol: str, start_date: str, end_date: str):
+        """
+        Get statistics data from repository
+        Parameters:
+            symbol (str): The symbol of statistics data
+            start_date (str): The query start date
+            end_date (str): The query end date
+
+        Returns:
+            List (StaticsData): The list of the StaticsData
+        """
