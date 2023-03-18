@@ -18,7 +18,7 @@ class Config:
     # Fianancial API configs
     finance_api_client_api_key = os.getenv('FINANCE_API_CLIENT_API_KEY', None)
     finance_api_client_api_url = os.getenv('FINANCE_API_CLIENT_API_URL', None)
-    finance_api_client_data_duration = os.getenv('FINANCE_API_CLIENT_DATA_DURATION', constants.API_CLIENT_DATA_DURATION)
+    finance_api_client_data_duration = int(os.getenv('FINANCE_API_CLIENT_DATA_DURATION', constants.API_CLIENT_DATA_DURATION))
 
     #  Database configs
     finance_database_url = os.getenv('FINANCE_DATABASE_URL', None)
