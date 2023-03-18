@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy_pagination import paginate
 
+from common import constants
 from common.logging import Logger
 from datetime import datetime
 from errors import DataBaseError
@@ -69,9 +70,9 @@ class FinancialRepository(BaseFinancialRepository):
     def get_financial_data(self, symbol, start_date, end_date, limit, page):
         session = self.session()
         if limit is None:
-            limit = 5
+            limit = constants.DEFAULT_PAGE_LIMIT
         if page is None:
-            page = 1
+            page = constants.DEFAULT_PAGE_NUMBER
 
         try:
             q = session.query(FinancialData)
