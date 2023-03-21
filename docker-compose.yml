@@ -1,0 +1,18 @@
+version: "1.0"
+services:
+  postgres:
+    image: postgres:14.7-bullseye
+    environment:
+      POSTGRES_USER: shaysrebellion
+      POSTGRES_PASSWORD: webserverdb
+      POSTGRES_DB: stocks
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./schema.sql:/schema.sql # for initializing financial_data table: psql -U shaysrebellion -d stocks < schema.sql (need to exec into Docker first)
+
+    ports:
+      - 5432:5432 # map to localhost:5432
+#  web:
+#    build: .
+#    ports:
+#      - 8080:80 # map to localhost:8080
