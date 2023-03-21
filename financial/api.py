@@ -3,7 +3,7 @@ from enum import Enum
 import math
 from fastapi import FastAPI
 from psycopg.rows import dict_row
-from connection_pool import pool
+from pool import connectionPool
 
 appv1 = FastAPI()
 
@@ -104,7 +104,7 @@ def financial_data(start_date: str = '', end_date: str = '', symbol: str = '', l
         symbolCondition = "AND symbol = '{symbol}'".format(symbol = symbol) if symbol else "",
     )
 
-    with pool.connection() as conn:
+    with connectionPool.connection() as conn:
         with conn.cursor(row_factory = dict_row) as cur:
             cur.execute(queryTemplate)
             data = cur.fetchall()
@@ -139,7 +139,7 @@ def statistics(start_date: str, end_date: str, symbol: str):
         WHERE date >= '{startDate}' AND date <= '{endDate}' AND symbol = '{symbol}' \
     ".format(startDate = startDate, endDate = endDate, symbol = symbol)
 
-    with pool.connection() as conn:
+    with connectionPool.connection() as conn:
         result = conn.execute(queryTemplate).fetchone()
     
     data.setdefault('start_date', startDate)
