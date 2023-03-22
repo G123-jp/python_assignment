@@ -25,22 +25,20 @@ class ErrorCode(Enum):
 
 
 def process_start_end_date(startDate, endDate, info):
-    info.setdefault('error', [])
-    info.setdefault('warning', [])
+    errorMessages = info.get('error', [])
+    warningMessages = info.get('warning', [])
 
     try:
         if startDate: datetime.strptime(startDate, '%Y-%m-%d')
     except:
-        errorMessages = info.get('error', [])
         errorMessages.append(ErrorCode.START_DATE_BAD_FORMAT)
-        info.setdefault('error', errorMessages)
 
     try:
         if endDate: datetime.strptime(endDate, '%Y-%m-%d')
     except:
-        errorMessages = info.get('error', [])
         errorMessages.append(ErrorCode.END_DATE_BAD_FORMAT)
-        info.setdefault('error', errorMessages)
+    
+    info.setdefault('error', errorMessages)
 
     if len(info.get('error')) > 0:
         raise Exception()
@@ -50,25 +48,30 @@ def process_start_end_date(startDate, endDate, info):
         startDate = endDate
         endDate = temp        
         
-        warningMessages = info.get('warning', [])
         warningMessages.append(WarningCode.SWAP_START_END_DATE)
-        info.setdefault('warning', warningMessages)
 
-    return startDate, endDate
+    info.setdefault('warning', warningMessages)
+
+    return startDate, endDate, info
 
 def process_limit_and_page(count, limit, page, info):
+    errorMessages = info.get('error', [])
+    warningMessages = info.get('warning', [])
+
+    count = max(0, count)
     if limit < 1 or limit > count:
         limit = DEFAULT_LIMIT
-        warningMessages = info.get('warning', [])
         warningMessages.append(WarningCode.TRUNCATE_LIMIT)
 
-    numPages = math.ceil(count / limit)
+    numPages = max(1, math.ceil(count / limit))
     if page < 1 or page > numPages:
         page = DEFAULT_PAGE
-        warningMessages = info.get('warning', [])
         warningMessages.append(WarningCode.TRUNCATE_PAGE)
 
-    return count, limit, page, numPages
+    info.setdefault('error', errorMessages)
+    info.setdefault('warning', warningMessages)
+
+    return count, limit, page, numPages, info
 
 
 @appv1.get('/financial_data')
@@ -78,7 +81,7 @@ def financial_data(start_date: str = '', end_date: str = '', symbol: str = '', l
     info = {}
 
     try:
-        startDate, endDate = process_start_end_date(start_date, end_date, info)
+        startDate, endDate, info = process_start_end_date(start_date, end_date, info)
     except:
         return {
             'data': data,
@@ -109,7 +112,7 @@ def financial_data(start_date: str = '', end_date: str = '', symbol: str = '', l
             cur.execute(queryTemplate)
             data = cur.fetchall()
 
-    count, limit, page, numPages = process_limit_and_page(len(data), limit, page, info)
+    count, limit, page, numPages, info = process_limit_and_page(len(data), limit, page, info)
     pagination.setdefault('count', count)
     pagination.setdefault('limit', limit)
     pagination.setdefault('page', page)
@@ -127,7 +130,7 @@ def statistics(start_date: str, end_date: str, symbol: str):
     info = {}
 
     try:
-        startDate, endDate = process_start_end_date(start_date, end_date, info)
+        startDate, endDate, info = process_start_end_date(start_date, end_date, info)
     except:
         return {
             'data': data,
