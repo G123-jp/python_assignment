@@ -37,7 +37,7 @@ class StockPriceEntry:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--symbols', dest='symbols', type=str, nargs=2, required=True, help="Stock symbols")
+    parser.add_argument('--symbols', dest='symbols', type=str, nargs=2, required=True, help="Stock symbols, requires exactly two stock symbols")
     parser.add_argument('--apikey', dest='apiKey', type=str, required=True, help="Api key for retrieving financial data")
     parser.add_argument('--numDays', dest='numDays', type=int, default=14, help="Number of days (database entries) for stock prices")
     args = parser.parse_args()
